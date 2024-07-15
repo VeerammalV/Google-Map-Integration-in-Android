@@ -1,2 +1,2 @@
-# Google-_Map_Integration_in_Android
-Integrating Google map in Android and displaying user's current location
+# Google-Map-Integration-in-Android
+Integrating Google map in Android and displaying user's current location.

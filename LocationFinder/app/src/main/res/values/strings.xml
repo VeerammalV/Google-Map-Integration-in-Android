@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Location Finder</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="map_api_key">AIzaSyBirFjnpNwVv7hkBKaf_k0n4aSYA7cQuHY</string>
+</resources>

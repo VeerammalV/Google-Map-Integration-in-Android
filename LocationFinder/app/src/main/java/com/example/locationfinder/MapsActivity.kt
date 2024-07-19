@@ -41,6 +41,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityMapsBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var locationCallback: LocationCallback? = null
+    private lateinit var autoComplete : AutocompleteSupportFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,9 +54,32 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
         // Initialize fusedLocationClient
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        // Initialize places to implement search functionality
+        // Complete billing process for searching Places
+        Places.initialize(applicationContext, getString(R.string.maps_api_key))
+        autoComplete = supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment
+        autoComplete.setPlaceFields(listOf(Place.Field.ID, Place.Field.ADDRESS, Place.Field.LAT_LNG))
+        autoComplete.setOnPlaceSelectedListener(object: PlaceSelectionListener{
+            override fun onError(status: Status) {
+                Log.e("MapsActivity", "Error occurred: ${status.statusMessage}")
+                Toast.makeText(this@MapsActivity, "Error occurred", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onPlaceSelected(place: Place) {
+                val add = place.address
+                val id = place.id
+                val latLng = place.latLng
+                zoomOnMap(latLng!!)
+            }
+
+        })
     }
 
-
+    private fun zoomOnMap(latLng: LatLng) {
+        val newLatLngZoom = CameraUpdateFactory.newLatLngZoom(latLng, 12f)
+        mMap.animateCamera(newLatLngZoom)
+    }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap

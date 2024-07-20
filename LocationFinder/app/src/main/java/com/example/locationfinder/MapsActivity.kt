@@ -152,11 +152,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             task.addOnFailureListener { exception ->
 
                 if (exception is ResolvableApiException) {
-                    // Location settings are not satisfied, but this can be fixed
-                    // by showing the user a dialog.
+                    // Location settings are not satisfied, but this can be fixed by showing the user a dialog.
                     try {
-                        // Show the dialog by calling startResolutionForResult(),
-                        // and check the result in onActivityResult().
+                        // Show the dialog by calling startResolutionForResult(), and check the result in onActivityResult().
                         exception.startResolutionForResult(this, 30)
 
                     } catch (sendEx: IntentSender.SendIntentException) {
